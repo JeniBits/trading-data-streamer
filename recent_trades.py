@@ -9,11 +9,11 @@ from termcolor import cprint
 # list of symbols you wanna track
 symbols = ['btcusdt', 'ethusdt', 'solusdt', 'bnbusdt', 'dogeusdt', 'wifusdt']
 websocket_url_base = 'wss://fstream.binance.com/ws/'
-trades_filename = 'D:/Work/Trading/data-stream/binance_trades.csv'
+trades_filename = 'binance_trades.csv'
 
 # check if the csv file exists
 if not os.path.isfile(trades_filename):
-    with open(trades_filename, 'w') as f:
+    with open(trades_filename, 'a') as f:
         f.write('Trade Time, Symbol, Aggregate Trade ID, Price, Quantity, USD Size, Is Buyer Maker\n')
 
 class TradeAggregator:
@@ -86,7 +86,7 @@ async def print_aggregated_trades_every_second(aggregator):
         await aggregator.check_and_print_trades()
 
 async def main():
-    filename = 'D:/Work/Trading/data-stream/binance_trades.csv'
+    filename = 'C:/Users/Administrator/Documents/AlgoTrading/trading-data-streamer/binance_trades.csv'
     trade_stream_tasks = [binance_trade_stream(f'{websocket_url_base}{symbol}@aggTrade', symbol, filename, trade_aggregator) for symbol in symbols]
     print_tasks = asyncio.create_task(print_aggregated_trades_every_second(trade_aggregator))
 

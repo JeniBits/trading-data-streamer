@@ -7,16 +7,16 @@ from websockets import connect
 from termcolor import cprint
 
 websocket_url = 'wss://fstream.binance.com/ws/!forceOrder@arr'
-# filename = 'D:/Work/Trading/data-stream/binance_liqs.csv'
+filename = 'C:/Users/Administrator/Documents/AlgoTrading/trading-data-streamer/binance_big_liq.csv'
 
-# if not os.path.isfile(filename):
-#     with open(filename, 'w') as f:
-#         f.write(','.join([
-#             'Symbol', 'side', 'order_type', 'time_in_force', 
-#             'original_quantity', 'price', 'average_price', 'order_status',
-#             'order_last_filled_quantity', 'order_filled_accumulated_quantity',
-#             'order_trade_time', 'usd_size'
-#         ])+ '\n')
+if not os.path.isfile(filename):
+    with open(filename, 'w') as f:
+        f.write(','.join([
+            'Symbol', 'side', 'order_type', 'time_in_force', 
+            'original_quantity', 'price', 'average_price', 'order_status',
+            'order_last_filled_quantity', 'order_filled_accumulated_quantity',
+            'order_trade_time', 'usd_size'
+        ])+ '\n')
 
 async def binance_liquidation(uri):
     async with connect(uri) as websocket:
@@ -45,12 +45,12 @@ async def binance_liquidation(uri):
 
                     print('')
                 
-                # msg_values = [str(order_data.get(key)) for key in ['s', 'S', 'o', 'f', 'q', 'p', 'ap', 'X', 'l', 'z', 'T']]
-                # msg_values.append(str(usd_size))
-                # with open(filename, 'a') as f:
-                #     trade_info = ','.join(msg_values) + '\n'
-                #     trade_info = trade_info.replace('USDT', '')
-                #     f.write(trade_info)
+                msg_values = [str(order_data.get(key)) for key in ['s', 'S', 'o', 'f', 'q', 'p', 'ap', 'X', 'l', 'z', 'T']]
+                msg_values.append(str(usd_size))
+                with open(filename, 'a') as f:
+                    trade_info = ','.join(msg_values) + '\n'
+                    trade_info = trade_info.replace('USDT', '')
+                    f.write(trade_info)
             
             except Exception as e:
                 await asyncio.sleep(5)

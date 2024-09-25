@@ -7,10 +7,10 @@ from websockets import connect
 from termcolor import cprint
 
 websocket_url = 'wss://fstream.binance.com/ws/!forceOrder@arr'
-filename = 'D:/Work/Trading/data-stream/binance_liqs.csv'
+filename = filename = 'C:/Users/Administrator/Documents/AlgoTrading/trading-data-streamer/binance_liqs.csv'
 
 if not os.path.isfile(filename):
-    with open(filename, 'w') as f:
+    with open(filename, 'a') as f:
         f.write(','.join([
             'Symbol', 'side', 'order_type', 'time_in_force', 
             'original_quantity', 'price', 'average_price', 'order_status',
